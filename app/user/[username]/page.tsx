@@ -29,11 +29,20 @@ export default function UserProfilePage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showSignupPopup, setShowSignupPopup] = useState(false);
 
   useEffect(() => {
     // Load profile regardless of auth status (public access)
     loadUserProfile();
-  }, [username]);
+    
+    // Show signup popup for non-authenticated users after 2 seconds
+    if (!authLoading && !currentUser) {
+      const timer = setTimeout(() => {
+        setShowSignupPopup(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [username, currentUser, authLoading]);
 
   const loadUserProfile = async () => {
     setLoading(true);
@@ -95,36 +104,71 @@ export default function UserProfilePage() {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-8">
-        {!currentUser && (
+      {/* Signup Popup for Non-Authenticated Users */}
+      {showSignupPopup && !currentUser && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={() => setShowSignupPopup(false)}
+        >
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6"
+            initial={{ y: 50 }}
+            animate={{ y: 0 }}
+            className="relative max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
           >
-            <Card className="border-primary/50 bg-primary/5">
-              <CardContent className="py-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="font-semibold text-lg">Track Your Own Expenses!</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Sign up to start tracking your spending and get personalized insights
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Link href="/auth/signup">
-                      <Button>Sign Up Free</Button>
-                    </Link>
-                    <Link href="/auth/login">
-                      <Button variant="outline">Log In</Button>
-                    </Link>
-                  </div>
+            <Card className="border-2 border-primary/50 shadow-2xl">
+              <CardHeader className="relative">
+                <button
+                  onClick={() => setShowSignupPopup(false)}
+                  className="absolute right-4 top-4 rounded-full p-1 hover:bg-muted transition-colors"
+                  aria-label="Close"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+                <CardTitle className="text-2xl">Track Your Own Expenses! 💰</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  You&apos;re viewing {profileUser?.displayName}&apos;s expenses. Want to track your own spending and get personalized insights?
+                </p>
+                <div className="space-y-2">
+                  <Link href="/auth/signup" className="block">
+                    <Button className="w-full" size="lg">
+                      Sign Up Free
+                    </Button>
+                  </Link>
+                  <Link href="/auth/login" className="block">
+                    <Button variant="outline" className="w-full" size="lg">
+                      Log In
+                    </Button>
+                  </Link>
                 </div>
+                <p className="text-xs text-center text-muted-foreground">
+                  Free forever • No credit card required
+                </p>
               </CardContent>
             </Card>
           </motion.div>
-        )}
-        
+        </motion.div>
+      )}
+      
+      <main className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
