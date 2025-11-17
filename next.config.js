@@ -16,6 +16,8 @@ const nextConfig = {
     return config;
   },
   transpilePackages: ['firebase', '@firebase/auth', '@firebase/firestore'],
+  // Netlify configuration
+  output: 'standalone',
 }
 
 module.exports = nextConfig
