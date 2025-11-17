@@ -18,12 +18,12 @@ service cloud.firestore {
              username.matches('^[a-z0-9_]+$');
     }
     
-    // Users collection
+    // Users collection - PUBLIC READ ACCESS
     match /users/{userId} {
-      // Anyone authenticated can read user profiles (for social features)
-      allow read: if isAuthenticated();
+      // ANYONE can read user profiles (even without authentication)
+      allow read: if true;
       
-      // Only the user can create their own profile
+      // Only authenticated users can create their own profile
       allow create: if isOwner(userId) && 
                       request.resource.data.keys().hasAll(['email', 'username', 'displayName', 'createdAt']) &&
                       isValidUsername(request.resource.data.username) &&
@@ -33,19 +33,18 @@ service cloud.firestore {
                       request.resource.data.displayName.size() <= 100;
       
       // Only the user can update their own profile
-      allow update: if isOwner(userId) &&
-                      request.resource.data.userId == userId;
+      allow update: if isOwner(userId);
       
       // Users cannot delete their profile
       allow delete: if false;
     }
     
-    // Expenses collection
+    // Expenses collection - PUBLIC READ ACCESS
     match /expenses/{expenseId} {
-      // Anyone authenticated can read any expense (for social feature)
-      allow read: if isAuthenticated();
+      // ANYONE can read expenses (even without authentication)
+      allow read: if true;
       
-      // Users can only create expenses for themselves
+      // Only authenticated users can create expenses for themselves
       allow create: if isAuthenticated() && 
                       request.resource.data.userId == request.auth.uid &&
                       request.resource.data.keys().hasAll(['userId', 'title', 'amount', 'category', 'date', 'createdAt']) &&
@@ -60,14 +59,14 @@ service cloud.firestore {
                       request.resource.data.date is timestamp &&
                       request.resource.data.createdAt is timestamp;
       
-      // Users can only update their own expenses
+      // Only authenticated users can update their own expenses
       allow update: if isAuthenticated() && 
                       resource.data.userId == request.auth.uid &&
                       request.resource.data.userId == request.auth.uid &&
                       request.resource.data.amount > 0 &&
                       request.resource.data.amount <= 1000000;
       
-      // Users can only delete their own expenses
+      // Only authenticated users can delete their own expenses
       allow delete: if isAuthenticated() && 
                       resource.data.userId == request.auth.uid;
     }

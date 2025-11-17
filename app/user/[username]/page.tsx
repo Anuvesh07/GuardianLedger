@@ -31,15 +31,9 @@ export default function UserProfilePage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!authLoading && !currentUser) {
-      router.push('/auth/login');
-      return;
-    }
-
-    if (currentUser) {
-      loadUserProfile();
-    }
-  }, [currentUser, authLoading, username]);
+    // Load profile regardless of auth status (public access)
+    loadUserProfile();
+  }, [username]);
 
   const loadUserProfile = async () => {
     setLoading(true);
@@ -63,7 +57,7 @@ export default function UserProfilePage() {
     }
   };
 
-  if (authLoading || loading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
@@ -102,6 +96,35 @@ export default function UserProfilePage() {
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
+        {!currentUser && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+          >
+            <Card className="border-primary/50 bg-primary/5">
+              <CardContent className="py-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-semibold text-lg">Track Your Own Expenses!</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Sign up to start tracking your spending and get personalized insights
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Link href="/auth/signup">
+                      <Button>Sign Up Free</Button>
+                    </Link>
+                    <Link href="/auth/login">
+                      <Button variant="outline">Log In</Button>
+                    </Link>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
