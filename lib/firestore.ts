@@ -17,6 +17,7 @@ import type { User, Expense, ExpenseFilters } from './types';
 
 // User operations
 export async function createUserProfile(userId: string, data: Omit<User, 'id' | 'createdAt'>) {
+  if (!db) throw new Error('Firestore is not initialized');
   const userRef = doc(db, 'users', userId);
   await setDoc(userRef, {
     ...data,
@@ -25,6 +26,7 @@ export async function createUserProfile(userId: string, data: Omit<User, 'id' | 
 }
 
 export async function getUserProfile(userId: string): Promise<User | null> {
+  if (!db) throw new Error('Firestore is not initialized');
   const userRef = doc(db, 'users', userId);
   const userSnap = await getDoc(userRef);
   
@@ -39,6 +41,7 @@ export async function getUserProfile(userId: string): Promise<User | null> {
 }
 
 export async function getUserByUsername(username: string): Promise<User | null> {
+  if (!db) throw new Error('Firestore is not initialized');
   const usersRef = collection(db, 'users');
   const q = query(usersRef, where('username', '==', username));
   const snapshot = await getDocs(q);
@@ -61,6 +64,7 @@ export async function isUsernameAvailable(username: string): Promise<boolean> {
 
 // Expense operations
 export async function createExpense(expense: Omit<Expense, 'id' | 'createdAt'>) {
+  if (!db) throw new Error('Firestore is not initialized');
   const expensesRef = collection(db, 'expenses');
   const docRef = await addDoc(expensesRef, {
     ...expense,
@@ -71,6 +75,7 @@ export async function createExpense(expense: Omit<Expense, 'id' | 'createdAt'>) 
 }
 
 export async function updateExpense(expenseId: string, data: Partial<Expense>) {
+  if (!db) throw new Error('Firestore is not initialized');
   const expenseRef = doc(db, 'expenses', expenseId);
   const updateData: any = { ...data };
   
@@ -82,11 +87,13 @@ export async function updateExpense(expenseId: string, data: Partial<Expense>) {
 }
 
 export async function deleteExpense(expenseId: string) {
+  if (!db) throw new Error('Firestore is not initialized');
   const expenseRef = doc(db, 'expenses', expenseId);
   await deleteDoc(expenseRef);
 }
 
 export async function getUserExpenses(userId: string, filters?: ExpenseFilters): Promise<Expense[]> {
+  if (!db) throw new Error('Firestore is not initialized');
   const expensesRef = collection(db, 'expenses');
   let q = query(expensesRef, where('userId', '==', userId), orderBy('date', 'desc'));
   
@@ -124,6 +131,7 @@ export async function getUserExpenses(userId: string, filters?: ExpenseFilters):
 }
 
 export async function getExpense(expenseId: string): Promise<Expense | null> {
+  if (!db) throw new Error('Firestore is not initialized');
   const expenseRef = doc(db, 'expenses', expenseId);
   const expenseSnap = await getDoc(expenseRef);
   
