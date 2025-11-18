@@ -13,7 +13,17 @@ export function AnimatedThemeToggler({
   className = '', 
   duration = 400 
 }: AnimatedThemeTogglerProps) {
-  const { theme, toggleTheme } = useTheme();
+  let theme = 'light';
+  let toggleTheme = () => {};
+  
+  try {
+    const themeContext = useTheme();
+    theme = themeContext.theme;
+    toggleTheme = themeContext.toggleTheme;
+  } catch (error) {
+    // ThemeProvider not available during SSR
+  }
+  
   const isDark = theme === 'dark';
 
   return (
