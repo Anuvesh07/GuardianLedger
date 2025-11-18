@@ -41,7 +41,8 @@ interface CurrencyContextType {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrencyState] = useState<Currency>(CURRENCIES[0]); // Default to USD
+  // Default to INR (Indian Rupee) - index 5 in CURRENCIES array
+  const [currency, setCurrencyState] = useState<Currency>(CURRENCIES[5]); // Default to INR
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
