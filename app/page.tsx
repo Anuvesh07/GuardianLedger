@@ -38,7 +38,7 @@ export default function LandingPage() {
           <span className="p-2 bg-soft-mint-light text-soft-mint-dark rounded-lg">
             <Wallet className="h-6 w-6" />
           </span>
-          <span className="text-2xl font-bold text-ink">ExpenseTracker</span>
+          <span className="text-2xl font-bold text-ink">GuardianLedger</span>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 20 }}

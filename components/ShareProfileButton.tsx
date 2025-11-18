@@ -28,8 +28,8 @@ export default function ShareProfileButton({
       // Try to use native share API first (mobile)
       if (navigator.share) {
         await navigator.share({
-          title: 'My Expense Tracker Profile',
-          text: `Check out my expenses on ExpenseTracker! @${username}`,
+          title: 'My GuardianLedger Profile',
+          text: `Check out my expenses on GuardianLedger! @${username}`,
           url: profileUrl,
         });
       } else {

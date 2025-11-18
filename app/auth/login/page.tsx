@@ -55,7 +55,7 @@ export default function LoginPage() {
       >
         <div className="flex items-center justify-center gap-2 mb-8">
           <Wallet className="h-10 w-10 text-primary" />
-          <span className="text-3xl font-bold">ExpenseTracker</span>
+          <span className="text-3xl font-bold">GuardianLedger</span>
         </div>
 
         <Card>
