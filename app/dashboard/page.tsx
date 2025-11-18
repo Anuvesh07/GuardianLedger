@@ -15,6 +15,7 @@ import MonthlyExpenseChart from '@/components/MonthlyExpenseChart';
 import YearlyOverview from '@/components/YearlyOverview';
 import CategoryPieChart from '@/components/CategoryPieChart';
 import ShareProfileButton from '@/components/ShareProfileButton';
+import { HyperText } from '@/components/ui/hyper-text';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -78,7 +79,15 @@ export default function DashboardPage() {
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-3xl font-bold">Welcome back, {user.displayName}!</h1>
+              <HyperText 
+                className="text-3xl font-bold"
+                as="h1"
+                duration={1000}
+                animateOnHover={false}
+                startOnView={true}
+              >
+                Welcome back, {user.displayName}!
+              </HyperText>
               <p className="text-muted-foreground">Track and manage your expenses</p>
             </div>
             <div className="flex gap-3">
