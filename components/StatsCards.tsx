@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { HyperText } from '@/components/ui/hyper-text';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import type { UserStats } from '@/lib/types';
 import { TrendingUp, DollarSign, PieChart, Calendar } from 'lucide-react';
@@ -80,7 +81,15 @@ export default function StatsCards({ stats, loading }: StatsCardsProps) {
               <card.icon className={`h-4 w-4 ${card.color}`} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{card.value}</div>
+              <HyperText 
+                className="text-2xl font-bold"
+                duration={800}
+                delay={i * 100}
+                startOnView={true}
+                animateOnHover={false}
+              >
+                {card.value}
+              </HyperText>
               {card.change !== undefined && (
                 <p className={`text-xs ${card.change >= 0 ? 'text-red-600' : 'text-green-600'}`}>
                   {card.change >= 0 ? '+' : ''}{card.change.toFixed(1)}% from last month
