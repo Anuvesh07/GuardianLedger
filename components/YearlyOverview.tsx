@@ -54,14 +54,9 @@ export default function YearlyOverview({ expenses }: YearlyOverviewProps) {
               <span className="text-sm font-medium text-soft-mint-dark">{currentYear}</span>
               <DollarSign className="h-4 w-4 text-soft-mint-dark" />
             </div>
-            <HyperText 
-              className="text-2xl font-bold text-soft-mint-dark mb-1"
-              duration={800}
-              startOnView={true}
-              animateOnHover={false}
-            >
+            <p className="text-2xl font-bold text-soft-mint-dark mb-1">
               {formatAmount(currentYearTotal)}
-            </HyperText>
+            </p>
             <p className="text-xs text-soft-mint-dark/80">
               {currentYearExpenses.length} transactions
             </p>
@@ -73,15 +68,9 @@ export default function YearlyOverview({ expenses }: YearlyOverviewProps) {
               <span className="text-sm font-medium text-graphite">{lastYear}</span>
               <DollarSign className="h-4 w-4 text-graphite" />
             </div>
-            <HyperText 
-              className="text-2xl font-bold text-ink mb-1"
-              duration={800}
-              delay={100}
-              startOnView={true}
-              animateOnHover={false}
-            >
+            <p className="text-2xl font-bold text-ink mb-1">
               {formatAmount(lastYearTotal)}
-            </HyperText>
+            </p>
             <p className="text-xs text-graphite">
               {lastYearExpenses.length} transactions
             </p>
@@ -97,17 +86,11 @@ export default function YearlyOverview({ expenses }: YearlyOverviewProps) {
                 <TrendingDown className="h-4 w-4 text-soft-mint-dark" />
               )}
             </div>
-            <HyperText 
-              className={`text-2xl font-bold mb-1 ${
-                yearOverYearChange >= 0 ? 'text-warm-coral-dark' : 'text-soft-mint-dark'
-              }`}
-              duration={800}
-              delay={200}
-              startOnView={true}
-              animateOnHover={false}
-            >
-              {`${yearOverYearChange >= 0 ? '+' : ''}${yearOverYearChange.toFixed(1)}%`}
-            </HyperText>
+            <p className={`text-2xl font-bold mb-1 ${
+              yearOverYearChange >= 0 ? 'text-warm-coral-dark' : 'text-soft-mint-dark'
+            }`}>
+              {yearOverYearChange >= 0 ? '+' : ''}{yearOverYearChange.toFixed(1)}%
+            </p>
             <p className="text-xs text-lavender-dark/80">
               vs last year
             </p>
@@ -119,15 +102,9 @@ export default function YearlyOverview({ expenses }: YearlyOverviewProps) {
               <span className="text-sm font-medium text-sky-blue-dark">Avg Transaction</span>
               <DollarSign className="h-4 w-4 text-sky-blue-dark" />
             </div>
-            <HyperText 
-              className="text-2xl font-bold text-sky-blue-dark mb-1"
-              duration={800}
-              delay={300}
-              startOnView={true}
-              animateOnHover={false}
-            >
+            <p className="text-2xl font-bold text-sky-blue-dark mb-1">
               {formatAmount(currentYearAvg)}
-            </HyperText>
+            </p>
             <p className="text-xs text-sky-blue-dark/80">
               {currentYear} average
             </p>
