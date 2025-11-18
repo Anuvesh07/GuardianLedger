@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 
 interface HyperTextProps {
   children: string;
@@ -14,7 +13,9 @@ interface HyperTextProps {
   characterSet?: string[];
 }
 
-const DEFAULT_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const LETTER_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const NUMBER_CHARS = '0123456789'.split('');
+const SYMBOL_CHARS = ['₹', '$', '€', '£', '¥', ',', '.'];
 
 export function HyperText({
   children,
@@ -24,18 +25,26 @@ export function HyperText({
   as: Component = 'div',
   startOnView = false,
   animateOnHover = true,
-  characterSet = DEFAULT_CHARS,
+  characterSet,
 }: HyperTextProps) {
   const [displayText, setDisplayText] = useState(children);
   const [isAnimating, setIsAnimating] = useState(false);
   const iterationCount = useRef(0);
   const elementRef = useRef<HTMLElement>(null);
 
+  // Helper function to get appropriate character set for a given character
+  const getCharSetForChar = (char: string): string[] => {
+    if (characterSet) return characterSet;
+    if (/[0-9]/.test(char)) return NUMBER_CHARS;
+    if (/[₹$€£¥,.]/.test(char)) return SYMBOL_CHARS;
+    if (/[A-Za-z]/.test(char)) return LETTER_CHARS;
+    return [char]; // Return the character itself if no match
+  };
+
   const scramble = () => {
     if (isAnimating) return;
     
     setIsAnimating(true);
-    const iterations = Math.floor(duration / 30);
     iterationCount.current = 0;
 
     const interval = setInterval(() => {
@@ -49,7 +58,8 @@ export function HyperText({
               return children[index];
             }
             
-            return characterSet[Math.floor(Math.random() * characterSet.length)];
+            const charSet = getCharSetForChar(children[index]);
+            return charSet[Math.floor(Math.random() * charSet.length)];
           })
           .join('')
       );
