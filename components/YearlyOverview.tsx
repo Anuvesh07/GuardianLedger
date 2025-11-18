@@ -1,7 +1,6 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { HyperText } from '@/components/ui/hyper-text';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import type { Expense } from '@/lib/types';
 import { startOfYear, endOfYear } from 'date-fns';
