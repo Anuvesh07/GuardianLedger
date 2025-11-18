@@ -86,7 +86,7 @@ export default function DashboardPage() {
                 animateOnHover={false}
                 startOnView={true}
               >
-                Welcome back, {user.displayName}!
+                {`Welcome back, ${user.displayName}!`}
               </HyperText>
               <p className="text-muted-foreground">Track and manage your expenses</p>
             </div>
