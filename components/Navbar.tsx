@@ -1,27 +1,15 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
-import { Wallet, Moon, Sun, LogOut, User, Search } from 'lucide-react';
+import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
+import { Wallet, LogOut, User, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
   const router = useRouter();
-  
-  // Make theme optional in case ThemeProvider is not available
-  let theme = 'light';
-  let toggleTheme = () => {};
-  
-  try {
-    const themeContext = useTheme();
-    theme = themeContext.theme;
-    toggleTheme = themeContext.toggleTheme;
-  } catch (error) {
-    // ThemeProvider not available, use defaults
-  }
 
   const handleSignOut = async () => {
     await signOut();
@@ -43,9 +31,7 @@ export default function Navbar() {
             </Button>
           </Link>
           
-          <Button variant="ghost" size="icon" onClick={toggleTheme}>
-            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
+          <AnimatedThemeToggler />
 
           {user && (
             <>
