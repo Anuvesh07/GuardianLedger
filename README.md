@@ -13,6 +13,7 @@ No need to pull out your phone's calculator. Just type math directly in the amou
 - Split a bill? Type `85.50/2` and hit enter
 - Multiple items? Type `12.99+8.50+5.75` 
 - Bought 3 of something? Type `15.99*3`
+- Future : will be adding option to scan the recipt 
 
 It calculates instantly. No extra steps, no switching apps.
 
